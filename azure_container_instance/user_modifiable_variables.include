@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# This file contains variables used by other scripts.
+# modify these as desired.
+#
+CGX_PAP_RESOURCE_GROUP=cloudgenixPrismaAccessPanorama
+CGX_PAP_REGION=eastus
+CGX_PAP_SHARE_NAME=cgxpapshare
+CGX_PAP_STORAGE_ACCOUNT_NAME_PREFIX=cgxpapstorageacct

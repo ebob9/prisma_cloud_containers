@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: prisma-access-panorama
+  labels:
+    version: 1.0.1
+spec:
+  replicas: 1
+  serviceName: "prisma-access-panorama-1-0-1"
+  selector:
+    matchLabels:
+      app: prisma-access-panorama-1-0-1
+  template:
+    metadata:
+      labels:
+        app: prisma-access-panorama-1-0-1
+    spec:
+      containers:
+      - name: prisma-access-panorama-container-1-0-1
+        image: registry.hub.docker.com/cloudgenix/prisma_access_panorama:1.0.1
+        env:
+        - name: 'VPN_PSK'
+          valueFrom:
+            secretKeyRef:
+              name: prisma-access-panorama.vpn-psk
+              key: VPN_PSK
+        - name: 'PANORAMA_PASSWORD'
+          valueFrom:
+            secretKeyRef:
+              name: prisma-access-panorama.panorama-password
+              key: PANORAMA_PASSWORD
+        - name: 'PRISMA_ACCESS_API_KEY'
+          valueFrom:
+            secretKeyRef:
+              name: prisma-access-panorama.prisma-access-api-key
+              key: PRISMA_ACCESS_API_KEY
+        - name: 'CGX_AUTH_TOKEN'
+          valueFrom:
+            secretKeyRef:
+              name: prisma-access-panorama.cgx-auth-token
+              key: CGX_AUTH_TOKEN
+#        - name: 'RUN_INTERVAL'
+#          value: "180"
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: applog
+          mountPath: /tmp/applog
+  volumeClaimTemplates:
+  - metadata:
+      name: applog
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

@@ -1,0 +1,74 @@
+apiVersion: 2018-10-01
+# location: eastus
+name: prisma_access_panorama_azure
+properties:
+  containers:
+  - name: prisma_access_panorama
+    properties:
+      environmentVariables:
+#
+#         REQUIRED ITEMS!
+#
+#         VPN Pre-shared seed to use for tunnels
+#        - name: 'VPN_PSK'
+#          secureValue: 'EnterPSKSeedHere'
+#
+#         Panorama password
+#         Panorama Host/IP and Username are specified in CloudGenix portal
+#         Click Email -> Extensions -> Prisma Access for Networks (managed by Panorama)
+#        - name: 'PANORAMA_PASSWORD'
+#          secureValue: 'enter-password-to-access-panorama-here'
+#
+#         PRISMA_ACCESS API Key from Panorama
+#         Located at PANORAMA -> Cloud Services -> Configuration -> Service Setup tab -> Generate API Key
+#        - name: 'PRISMA_ACCESS_API_KEY'
+#          secureValue: 'cloud-services-API-key-from-panorama-here'
+#
+#         CloudGenix AUTH_TOKEN (tenant_super)
+#         Click Email -> System Administration -> Auth Tokens
+#        - name: 'CGX_AUTH_TOKEN'
+#          secureValue: 'auth-token-from-cloudgenix-here'
+#
+#
+#         Optional items.
+#
+#         These enable external syslog debugging export for this container.
+#        - name: 'SYSLOG_HOST'
+#          value: '10.0.0.1'
+#        - name: 'SYSLOG_PORT'
+#          value: 514
+#        - name: 'SYSLOG_FACILITY'
+#          value: 'local2'
+#
+#         This allows modification of the default run interval - default 180s.
+#         Please note that commits for changes will be applied for the panorama user at this interval.
+#        - name: 'RUN_INTERVAL'
+#          value: 180
+
+        - name: 'VPN_PSK'
+          secureValue: 'EnterPSKSeedHere'
+        - name: 'PANORAMA_PASSWORD'
+          secureValue: 'enter-password-to-access-panorama-here'
+        - name: 'PRISMA_ACCESS_API_KEY'
+          secureValue: 'cloud-services-API-key-from-panorama-here'
+        - name: 'CGX_AUTH_TOKEN'
+          secureValue: 'auth-token-from-cloudgenix-here'
+
+      image: cloudgenix/prisma_access_panorama:latest
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1
+      volumeMounts:
+        - mountPath: /tmp/applog/
+          name: applogvolume
+  osType: Linux
+  volumes:
+    - name: applogvolume
+      azureFile:
+        sharename: <sharenamehere>
+        storageAccountName: <Storage account name>
+        storageAccountKey: <Storage account key>
+  restartPolicy: Always
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
