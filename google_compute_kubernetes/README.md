@@ -29,3 +29,7 @@ https://cloud.google.com/apis/docs/getting-started
 To Use:
  1. Run ./1_gce_cli_launch.sh bash shell script.
 
+After setup, interesting commands:
+kubectl get pods  # list pods
+kubectl exec -it POD_NAME -- ./tail_applog.sh  # View Applog
+
