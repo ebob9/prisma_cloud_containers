@@ -3,21 +3,21 @@ kind: StatefulSet
 metadata:
   name: prisma-access-panorama
   labels:
-    version: 1.0.1
+    version: latest
 spec:
   replicas: 1
-  serviceName: "prisma-access-panorama-1-0-1"
+  serviceName: "prisma-access-panorama-latest"
   selector:
     matchLabels:
-      app: prisma-access-panorama-1-0-1
+      app: prisma-access-panorama-latest
   template:
     metadata:
       labels:
-        app: prisma-access-panorama-1-0-1
+        app: prisma-access-panorama-latest
     spec:
       containers:
-      - name: prisma-access-panorama-container-1-0-1
-        image: registry.hub.docker.com/cloudgenix/prisma_access_panorama:1.0.1
+      - name: prisma-access-panorama-container-latest
+        image: registry.hub.docker.com/cloudgenix/prisma_access_panorama:latest
         env:
         - name: 'VPN_PSK'
           valueFrom:
